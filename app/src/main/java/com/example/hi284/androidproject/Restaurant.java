@@ -1,10 +1,13 @@
 package com.example.hi284.androidproject;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,12 +20,22 @@ public class Restaurant extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
-        // string.xml 리소스파일에서 식당이름 불러오기
+        //전화걸기 Intent
+        /*int pre_call = R.string.res1_num;
+        String call = Integer.toString(pre_call);
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(call));
+        startActivity(intent);*/
+
+        ImageButton ib = (ImageButton) findViewById(R.id.call_btn);
+        ib.setImageResource(R.drawable.call);
+        ib.setScaleType(ImageButton.ScaleType.FIT_XY);
+
+        // string.xml 리소스파일에서 식당이미지 불러오기
         ImageView im = (ImageView)findViewById(R.id.res_img);
         im.setImageResource(R.drawable.res1);
         im.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        // 리소스파일에서 식당이미지 불러오기
+        // 리소스파일에서 식당이름 불러오기
         TextView tv = (TextView)findViewById(R.id.res_tv);
         tv.setText(R.string.res1_name);
 
