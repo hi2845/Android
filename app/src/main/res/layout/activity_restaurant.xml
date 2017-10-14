@@ -6,8 +6,56 @@
     android:layout_height="match_parent"
     tools:context="com.example.hi284.androidproject.Restaurant">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/res_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_light"
+            android:textAlignment="center"
+            android:textSize="30dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/res_img"
+                android:layout_width="29dp"
+                android:layout_height="20dp"
+                android:scaleType="centerInside"
+                android:padding="2dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/res_addr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageButton
+                    android:id="@+id/phoneImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/menu_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
