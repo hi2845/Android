@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,15 +17,28 @@ public class Restaurant extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
-        // Intent로 받아온 제목을 넣어주는 것으로 수정하기
+        // string.xml 리소스파일에서 식당이름 불러오기
+        ImageView im = (ImageView)findViewById(R.id.res_img);
+        im.setImageResource(R.drawable.res1);
+        im.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        // 리소스파일에서 식당이미지 불러오기
         TextView tv = (TextView)findViewById(R.id.res_tv);
-        tv.setText("성북동면옥집");
+        tv.setText(R.string.res1_name);
+
+        // string.xml 리소스파일에서 식당주소 불러오기
+        tv = (TextView)findViewById(R.id.res_addr);
+        tv.setText(R.string.res1_addr);
+
+        // string.xml 리소스파일에서 식당연락처 불러오기
+        tv = (TextView)findViewById(R.id.res_num);
+        tv.setText(R.string.res1_num);
 
         // 어댑터 생성
         ListAdapter adapter = createAdapter();
 
         // 어댑터 연결
-        ListView listv = (ListView)findViewById(R.id.menu_list);
+        ListView listv = (ListView)findViewById(R.id.res_menu);
         listv.setAdapter(adapter);
         listv.setDivider(new ColorDrawable(Color.GRAY));
         listv.setDividerHeight(5);
@@ -33,11 +47,10 @@ public class Restaurant extends AppCompatActivity {
     //*********************** 여기를 고치시면 될 듯 ***********************
     // 따로 어댑터를 만드셔도 됩니다. 이건 모양을 위해 그냥 넣어놓은거라...
     private ListAdapter createAdapter() {
-        String[] menues = {"menu1", "menu2"};
+        String[] menues = {"menu1", "menu2", "menu3"};
 
-        ArrayAdapter<String> adapt = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, menues
-        );
+        ArrayAdapter<String> adapt
+                = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menues);
 
         return adapt;
     }
