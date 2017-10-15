@@ -54,12 +54,38 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         // 어댑터 생성
         ListAdapter adapter = createAdapter();
 
+        final ArrayList<MyItem> data = new ArrayList<>();
+        data.add(new MyItem(R.drawable.mu1,"물냉면","9000원"));
+        data.add(new MyItem(R.drawable.mu2,"비빔냉면","9000원"));
+        data.add(new MyItem(R.drawable.mu3,"왕갈비탕","12000원"));
+        data.add(new MyItem(R.drawable.mu4,"갈비","진 6만원 선 5만원 미 4만원"));
+
         // 어댑터 연결
         ListView listv = (ListView)findViewById(R.id.res_menu);
         listv.setAdapter(adapter);
         listv.setDivider(new ColorDrawable(Color.GRAY));
         listv.setDividerHeight(5);
-    }
+        listv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        ManuActivity.class); // 다음넘어갈 화면
+
+                // intent 객체에 데이터를 실어서 보내기
+                // 리스트뷰 클릭시 인텐트 (Intent) 생성하고 position 값을 이용하여 인텐트로 넘길값들을 넘긴다
+                intent.putExtra("img", data.get(position).mIcon);
+                intent.putExtra("name", data.get(position).nName);
+                intent.putExtra("price", data.get(position).nprice);
+
+                startActivity(intent);
+            }
+        });
+    } // end of onCreate
+
+
 
 
 
