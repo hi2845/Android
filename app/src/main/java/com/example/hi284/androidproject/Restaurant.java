@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,7 +15,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Restaurant extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class Restaurant extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +61,27 @@ public class Restaurant extends AppCompatActivity {
         listv.setDividerHeight(5);
     }
 
+
+
     //*********************** 여기를 고치시면 될 듯 ***********************
     // 따로 어댑터를 만드셔도 됩니다. 이건 모양을 위해 그냥 넣어놓은거라...
     private ListAdapter createAdapter() {
-        String[] menues = {"menu1", "menu2", "menu3"};
+        ArrayList<MyItem> data = new ArrayList<>();
+        data.add(new MyItem(R.drawable.mu1,"물냉면","9000원"));
+        data.add(new MyItem(R.drawable.mu2,"비빔냉면","9000원"));
+        data.add(new MyItem(R.drawable.mu3,"왕갈비탕","12000원"));
+        data.add(new MyItem(R.drawable.mu4,"갈비","진 6만원 선 5만원 미 4만원"));
 
-        ArrayAdapter<String> adapt
-                = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menues);
+        MyAdapter adapt
+                = new MyAdapter(this, R.layout.item,data);
+
+
 
         return adapt;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
     }
 }
