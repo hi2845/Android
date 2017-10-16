@@ -56,6 +56,7 @@ package com.example.hi284.androidproject;
                  // Set Icon
                  ImageView icon = (ImageView) convertView.findViewById(R.id.imageView1);
                  icon.setImageResource(mItems.get(position).mIcon);
+                 icon.setScaleType(ImageView.ScaleType.FIT_XY);
 
 
                  // Set Text 01
