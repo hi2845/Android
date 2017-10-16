@@ -16,8 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Restaurant" />
-        <activity android:name=".ManuActivity"></activity>
+        <activity android:name=".Restaurant"/>
+        <activity android:name=".ManuActivity"
+            android:parentActivityName=".Restaurant">
+        </activity>
     </application>
 
 </manifest>
