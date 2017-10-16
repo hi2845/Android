@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -109,5 +110,13 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    }
+
+    // 전화걸기 Intent
+    public void callButtonClicked(View v) {
+        TextView textv = (TextView)findViewById(R.id.res_num);
+        String call = textv.getText().toString();
+        Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+call));
+        startActivity(intent1);
     }
 }

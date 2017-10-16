@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sungbuk(View v) {
-        Button btn = (Button)findViewById(R.id.button1);
         Intent intent = new Intent(getApplicationContext(), Restaurant.class);
         startActivity(intent);
     }
