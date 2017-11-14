@@ -25,12 +25,6 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
-        //전화걸기 Intent
-        /*int pre_call = R.string.res1_num;
-        String call = Integer.toString(pre_call);
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(call));
-        startActivity(intent);*/
-
         ImageButton ib = (ImageButton) findViewById(R.id.call_btn);
         ib.setImageResource(R.drawable.call);
         ib.setScaleType(ImageButton.ScaleType.FIT_XY);
