@@ -81,8 +81,8 @@ class MyItem {
 
 
      MyItem(int aIcon, String aName, String price) {
-                 mIcon = aIcon;
-                 nName = aName;
-                 nprice = price;
-            }
+         mIcon = aIcon;
+         nName = aName;
+         nprice = price;
+     }
  }

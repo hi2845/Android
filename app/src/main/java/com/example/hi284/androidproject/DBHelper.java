@@ -56,14 +56,15 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Rests 테이블에 식당 추가 (식당이름, 식당번호, 식당사진에 대한 URI를 문자열로 받음)
-    public int insertRest(String resName, String resNum, String resPic) {
+    // Rests 테이블에 식당 추가 (식당이름, 식당번호, 식당주소, 식당사진에 대한 URI를 문자열로 받음)
+    public int insertRest(String resName, String resNum, String resAddr, String resPic) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
         if(getRest(resName, resNum) != null) {
             values.put(ResContract.Rests.REST_NAME, resName);
             values.put(ResContract.Rests.REST_NUM, resNum);
+            values.put(ResContract.Rests.REST_ADDR, resAddr);
             values.put(ResContract.Rests.REST_PIC, resPic);
 
             db.insert(ResContract.Rests.REST_TABLE_NAME, null, values);

@@ -18,12 +18,14 @@ public final class ResContract {
         public static final String REST_TABLE_NAME = "Rests";
         public static final String REST_NAME = "Rest_Name";
         public static final String REST_NUM = "Rest_Num";
+        public static final String REST_ADDR = "Rest_Address";
         public static final String REST_PIC = "Rest_Pic";
 
         public static final String CREATE_TABLE = "CREATE TABLE " + REST_TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                 REST_NAME + TEXT_TYPE + COMMA_SEP +
                 REST_NUM + TEXT_TYPE + COMMA_SEP +
+                REST_ADDR + TEXT_TYPE + COMMA_SEP +
                 REST_PIC + TEXT_TYPE + " )";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + REST_TABLE_NAME;
     }
