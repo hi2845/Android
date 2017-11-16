@@ -100,6 +100,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // 메뉴 추가(식당이름, 메뉴이름, 메뉴가격, 메뉴사진에 대한 URI를 문자열로 받음)
+    public void insertMenu(String resName, String menuName, String menuPrice, String menuPic) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Rest_Menu", menuName);
+        values.put("Rest_Price", menuPrice);
+        values.put("Rest_Pic", menuPic);
+
+        db.insert(resName, null, values);
+    }
 
     /*
     // Rests 테이블에 식당 삭제 (식당이름, 식당번호를 문자열로 받음)
