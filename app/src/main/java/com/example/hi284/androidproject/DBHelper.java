@@ -76,6 +76,27 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    // 추가한 식당에 대한 메뉴테이블 만들기(식당이름을 문자열로 받음)
+    public int createRestTable(String resName) {
+        String TEXT_TYPE = " TEXT";
+        String COMMA_SEP = ",";
+        String TABLE_NAME = resName;
+        String MENU = "Rest_Menu";
+        String MENU_PIC = "Menu_Pic";
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = "CREATE TABLE " + TABLE_NAME + " (" +
+                        MENU + TEXT_TYPE + COMMA_SEP +
+                        MENU_PIC + TEXT_TYPE + " )";
+        try {
+            db.execSQL(sql);
+            return SUCCESS;
+        } catch (SQLiteException e) {
+            return FAILS;
+        }
+    }
+
     /*
     // Rests 테이블에 식당 삭제 (식당이름, 식당번호를 문자열로 받음)
     public long deleteRest(String resName, String resNum) {
