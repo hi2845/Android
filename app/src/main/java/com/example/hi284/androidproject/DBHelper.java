@@ -49,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 resNum
                 );
         try {
-            Cursor c = getReadableDatabase().rawQuery(sql, null);
+            Cursor c = db.rawQuery(sql, null);
             return c;
         } catch (SQLiteException e) {
             return null;
@@ -103,11 +103,30 @@ public class DBHelper extends SQLiteOpenHelper {
     public void insertMenu(String resName, String menuName, String menuPrice, String menuPic) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("Rest_Menu", menuName);
-        values.put("Rest_Price", menuPrice);
-        values.put("Rest_Pic", menuPic);
+        if(getMenu(resName, menuName) != null) {
+            values.put("Rest_Menu", menuName);
+            values.put("Rest_Price", menuPrice);
+            values.put("Rest_Pic", menuPic);
 
-        db.insert(resName, null, values);
+            db.insert(resName, null, values);
+        }
+    }
+
+    // 조건에 합하는 메뉴가 있는지 검사
+    public Cursor getMenu(String resName, String menuName) {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = String.format(
+                "SELECT * FROM %s WHERE %s = '%s'",
+                resName,
+                "Rest_Menu",
+                menuName
+        );
+        try {
+            Cursor c = db.rawQuery(sql, null);
+            return c;
+        } catch (SQLiteException e) {
+            return null;
+        }
     }
 
     /*
