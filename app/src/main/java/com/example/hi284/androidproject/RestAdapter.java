@@ -48,27 +48,44 @@ public class RestAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if(view == null) {
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(mResource, viewGroup, false);
         }
 
         // 식당 이미지 넣기
-        ImageView resPic = (ImageView)view.findViewById(R.id.res_img);
+        //ImageView resPic = (ImageView)view.findViewById(R.id.res_img);
 
 
         // 식당 이름 넣기
-        TextView name = (TextView)view.findViewById(R.id.res_name);
+        TextView name = (TextView) view.findViewById(R.id.res_name);
         name.setText(mItems.get(i).resName);
 
-        // 식당 주소 넣기
-        TextView addr = (TextView)view.findViewById(R.id.res_addr);
-        addr.setText(mItems.get(i).resAddr);
 
         // 식당 번호 넣기
-        TextView number = (TextView)view.findViewById(R.id.res_num);
+        TextView number = (TextView) view.findViewById(R.id.res_num);
         number.setText(mItems.get(i).resNum);
+
+        // 식당 주소 넣기
+        TextView addr = (TextView) view.findViewById(R.id.res_addr);
+        addr.setText(mItems.get(i).resAddr);
 
         return view;
     }
 }
+class RestItem {
+        String resPicPath;
+        String resName;
+        String resAddr;
+        String resNum;
+        //Bitmap resPic;
+
+        RestItem(String resPicPath, String resName, String resAddr, String resNum){
+            this.resPicPath = resPicPath;
+            this.resName = resName;
+            this.resAddr = resAddr;
+            this.resNum = resNum;
+            //  resPic = BitmapFactory.decodeFile(resPicPath.toString());
+        }
+}
+
