@@ -46,5 +46,11 @@
             android:textColor="#666666"
             android:textSize="16dp" />
     </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:id="@+id/listview"
+        />
 
 </android.support.constraint.ConstraintLayout>
