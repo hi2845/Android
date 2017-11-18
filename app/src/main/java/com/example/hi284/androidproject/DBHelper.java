@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by jkm21 on 2017-11-14.
@@ -22,11 +23,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.i(TAG,getClass().getName() +".onCreate()");
         sqLiteDatabase.execSQL(ResContract.Rests.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        Log.i(TAG,getClass().getName() +".onUpgrade()");
         sqLiteDatabase.execSQL(ResContract.Rests.DELETE_TABLE);
         onCreate(sqLiteDatabase);
     }
@@ -36,6 +39,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         return db.query(ResContract.Rests.REST_TABLE_NAME,null,null,null,null,null,null);
     }
+
+
+
 
     // 조건에 합하는 식당이 있는지 검사
     public Cursor getRest(String resName, String resNum) {
@@ -130,14 +136,28 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    /*
+
     // Rests 테이블에 식당 삭제 (식당이름, 식당번호를 문자열로 받음)
-    public long deleteRest(String resName, String resNum) {
+    public long deleteRest(String resName) {
         SQLiteDatabase db = getWritableDatabase();
 
-        String whereClause = ResContract.Rests.REST_NAME +" = ? AND " + ResContract.Rests.REST_NUM+" = ?";
-        String[] whereArgs ={resName, resNum};
+        String whereClause = ResContract.Rests.REST_NAME +" = ?";
+        String[] whereArgs ={resName};
         return db.delete(ResContract.Rests.REST_TABLE_NAME, whereClause, whereArgs);
     }
-    */
+
+    public long updateUserByMethod(String _id, String name, String phone) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ResContract.Rests.REST_NAME, name);
+        values.put(ResContract.Rests.REST_NUM,phone);
+
+        String whereClause = ResContract.Rests._ID +" = ?";
+        String[] whereArgs ={_id};
+
+        return db.update(ResContract.Rests.REST_TABLE_NAME, values, whereClause, whereArgs);
+    }
+
+
 }

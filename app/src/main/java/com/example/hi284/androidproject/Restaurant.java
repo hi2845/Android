@@ -1,6 +1,7 @@
 package com.example.hi284.androidproject;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -25,6 +26,8 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
+        DBHelper mDbHelper=null;
+
         ImageButton ib = (ImageButton) findViewById(R.id.call_btn);
         ib.setImageResource(R.drawable.call);
         ib.setScaleType(ImageButton.ScaleType.FIT_XY);
@@ -34,20 +37,32 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         im.setImageResource(R.drawable.res1);
         im.setScaleType(ImageView.ScaleType.FIT_XY);
 
+        /*Cursor cursor = mDbHelper.();
+
+        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
+                R.layout.item, cursor, new String[]{
+                ResContract.Rests.REST_NAME,
+                ResContract.Rests.REST_NUM,
+                ResContract.Rests.REST_ADDR,
+                ResContract.Rests.REST_PIC},
+                new int[]{R.id.name, R.id.phone, R.id.address, R.id.pic}, 0);
+
+
         // 리소스파일에서 식당이름 불러오기
         TextView tv = (TextView)findViewById(R.id.res_tv);
-        tv.setText(R.string.res1_name);
-
-        // string.xml 리소스파일에서 식당주소 불러오기
-        tv = (TextView)findViewById(R.id.res_addr);
-        tv.setText(R.string.res1_addr);
+        tv.setText(((Cursor)adapter.getItem(0)).getString(0));
 
         // string.xml 리소스파일에서 식당연락처 불러오기
         tv = (TextView)findViewById(R.id.res_num);
-        tv.setText(R.string.res1_num);
+        tv.setText(((Cursor)adapter.getItem(0)).getString(1));
+
+        // string.xml 리소스파일에서 식당주소 불러오기
+        tv = (TextView)findViewById(R.id.res_addr);
+        tv.setText(((Cursor)adapter.getItem(0)).getString(2));*/
+
 
         // 어댑터 생성
-        ListAdapter adapter = createAdapter();
+        ListAdapter adapters = createAdapter();
 
         final ArrayList<MyItem> data = new ArrayList<>();
         data.add(new MyItem(R.drawable.mu1,"물냉면","9000원"));
@@ -57,7 +72,7 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
 
         // 어댑터 연결
         ListView listv = (ListView)findViewById(R.id.res_menu);
-        listv.setAdapter(adapter);
+        listv.setAdapter(adapters);
         listv.setDivider(new ColorDrawable(Color.GRAY));
         listv.setDividerHeight(5);
         listv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

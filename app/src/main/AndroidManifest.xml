@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Restaurant"/>
+        <activity android:name=".Restaurant"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".ManuActivity"
             android:parentActivityName=".Restaurant">
         </activity>
