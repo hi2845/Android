@@ -20,13 +20,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class Restaurant extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private DBHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
-        DBHelper mDbHelper=null;
+
+        Intent intent= getIntent();
+        int rewID=getIntent().getIntExtra("KEY", 0);
+
 
         ImageButton ib = (ImageButton) findViewById(R.id.call_btn);
         ib.setImageResource(R.drawable.call);
@@ -37,28 +41,21 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         im.setImageResource(R.drawable.res1);
         im.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        /*Cursor cursor = mDbHelper.();
-
-        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
-                R.layout.item, cursor, new String[]{
-                ResContract.Rests.REST_NAME,
-                ResContract.Rests.REST_NUM,
-                ResContract.Rests.REST_ADDR,
-                ResContract.Rests.REST_PIC},
-                new int[]{R.id.name, R.id.phone, R.id.address, R.id.pic}, 0);
-
 
         // 리소스파일에서 식당이름 불러오기
-        TextView tv = (TextView)findViewById(R.id.res_tv);
-        tv.setText(((Cursor)adapter.getItem(0)).getString(0));
+        TextView tvName = (TextView)findViewById(R.id.res_tv);
+        tvName.setText(intent.getStringExtra("name"));
+
 
         // string.xml 리소스파일에서 식당연락처 불러오기
-        tv = (TextView)findViewById(R.id.res_num);
-        tv.setText(((Cursor)adapter.getItem(0)).getString(1));
+        TextView tvNum = (TextView)findViewById(R.id.res_num);
+        tvNum.setText(intent.getStringExtra("phone"));
+
 
         // string.xml 리소스파일에서 식당주소 불러오기
-        tv = (TextView)findViewById(R.id.res_addr);
-        tv.setText(((Cursor)adapter.getItem(0)).getString(2));*/
+        TextView tvAddr = (TextView)findViewById(R.id.res_addr);
+        tvAddr.setText(intent.getStringExtra("addr"));
+
 
 
         // 어댑터 생성

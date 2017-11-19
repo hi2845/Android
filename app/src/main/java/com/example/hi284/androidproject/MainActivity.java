@@ -1,6 +1,7 @@
 package com.example.hi284.androidproject;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -90,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 mName.setText(((Cursor)adapter.getItem(i)).getString(1));
                 mPhone.setText(((Cursor)adapter.getItem(i)).getString(2));
                 mAddress.setText(((Cursor)adapter.getItem(i)).getString(3));
+
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        Restaurant.class); // 다음넘어갈 화면
+                intent.putExtra("KEY", ((Cursor)adapter.getItem(i)).getString(0));
+                intent.putExtra("name",((Cursor)adapter.getItem(i)).getString(1));
+                intent.putExtra("phone",((Cursor)adapter.getItem(i)).getString(2));
+                intent.putExtra("addr",((Cursor)adapter.getItem(i)).getString(3));
+                startActivity(intent);
             }
         });
         listv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
