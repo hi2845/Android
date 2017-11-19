@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jkm21 on 2017-11-14.
  */
@@ -25,6 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.i(TAG,getClass().getName() +".onCreate()");
         sqLiteDatabase.execSQL(ResContract.Rests.CREATE_TABLE);
+
+        
     }
 
     @Override
@@ -158,6 +163,61 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return db.update(ResContract.Rests.REST_TABLE_NAME, values, whereClause, whereArgs);
     }
+
+    public void addData(RestaurantClass restaurantClass) {
+
+        SQLiteDatabase db = getWritableDatabase();
+
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" INSERT INTO REST_TABLE_NAME ( ");
+        sb.append(" Name, Phone, Address, Pic ) ");
+        sb.append(" VALUES ( ?, ?, ?, ? ) ");
+
+        db.execSQL(sb.toString(),
+                new Object[]{
+                        restaurantClass.getName(),
+                        restaurantClass.getPhone(),
+                        restaurantClass.getAddress(),
+                        restaurantClass.getPic()
+        });;
+    }
+    public List getAllPersonData()
+
+    {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" SELECT _ID, NAME, PHONE,Address FROM CREAT TABLE ");
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sb.toString(), null);
+        List people = new ArrayList(); RestaurantClass restaurantClass = null;
+        while( cursor.moveToNext() )
+        { restaurantClass = new RestaurantClass();
+            restaurantClass.set_id(cursor.getInt(0));
+            restaurantClass.setName(cursor.getString(1));
+            restaurantClass.setPhone(cursor.getString(2));
+            restaurantClass.setPic(cursor.getString(3));
+
+            people.add(restaurantClass); }
+
+        return people;
+    }
+    public RestaurantClass getPersonById(int _id)
+    { StringBuffer sb = new StringBuffer();
+    sb.append(" SELECT NAME, AGE, PHONE, ADDRESS FROM TEST_TABLE WHERE _ID = ? ");
+    SQLiteDatabase db = getReadableDatabase();
+    Cursor cursor = db.rawQuery(sb.toString(), new String[]{_id + ""});
+    RestaurantClass restaurantClass=new RestaurantClass();
+            if(cursor.moveToNext())
+            { restaurantClass.setName(cursor.getString(0));
+            restaurantClass.setPhone(cursor.getString(1));
+            restaurantClass.setAddress(cursor.getString(2));
+            restaurantClass.setPic(cursor.getString(3));}
+            return restaurantClass; }
+
+
+
+
+
 
 
 }

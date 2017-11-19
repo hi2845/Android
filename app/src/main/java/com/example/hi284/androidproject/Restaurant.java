@@ -37,28 +37,29 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         im.setImageResource(R.drawable.res1);
         im.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        /*Cursor cursor = mDbHelper.();
 
-        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
-                R.layout.item, cursor, new String[]{
-                ResContract.Rests.REST_NAME,
-                ResContract.Rests.REST_NUM,
-                ResContract.Rests.REST_ADDR,
-                ResContract.Rests.REST_PIC},
-                new int[]{R.id.name, R.id.phone, R.id.address, R.id.pic}, 0);
 
 
         // 리소스파일에서 식당이름 불러오기
-        TextView tv = (TextView)findViewById(R.id.res_tv);
-        tv.setText(((Cursor)adapter.getItem(0)).getString(0));
+        TextView tvName = (TextView)findViewById(R.id.res_tv);
+
 
         // string.xml 리소스파일에서 식당연락처 불러오기
-        tv = (TextView)findViewById(R.id.res_num);
-        tv.setText(((Cursor)adapter.getItem(0)).getString(1));
+        TextView tvPhone = (TextView)findViewById(R.id.res_num);
+
 
         // string.xml 리소스파일에서 식당주소 불러오기
-        tv = (TextView)findViewById(R.id.res_addr);
-        tv.setText(((Cursor)adapter.getItem(0)).getString(2));*/
+        TextView tvAddr = (TextView)findViewById(R.id.res_addr);
+
+        int _id = getIntent().getIntExtra("_id", 0);
+        RestaurantClass restaurantClass = mDbHelper.getPersonById(_id);
+
+        tvName.setText(restaurantClass.getName());
+        tvPhone.setText(restaurantClass.getPhone());
+        tvAddr.setText(restaurantClass.getAddress());
+
+
+
 
 
         // 어댑터 생성
