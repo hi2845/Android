@@ -1,7 +1,6 @@
 package com.example.hi284.androidproject;
 
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity {
     EditText mId;
@@ -63,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         viewAllToListView();
-
     }
 
 
@@ -71,26 +67,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void viewAllToListView() {
 
-        ListView lv= (ListView) findViewById(R.id.listview);
+        Cursor cursor = mDbHelper.getAllRest();
 
-        lv.setVisibility(View.VISIBLE);
+        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
+                R.layout.item2, cursor, new String[]{
+                ResContract.Rests._ID,
+                ResContract.Rests.REST_NAME,
+                ResContract.Rests.REST_NUM,
+                ResContract.Rests.REST_ADDR},
+                new int[]{R.id._id, R.id.name, R.id.phone,R.id.address}, 0);
 
-        List restaurnat = mDbHelper.getAllPersonData();
-        lv.setAdapter(new RestAdapter(restaurnat, MainActivity.this));
 
+        ListView listv = (ListView)findViewById(R.id.listview);
+        listv.setAdapter(adapter);
 
+        listv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Adapter adapter = adapterView.getAdapter();
 
-        lv.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Restaurant.class);
-                //intent.putExtra("_id", RestaurantClass.get_id());
-
-                startActivity(intent); }
+                mId.setText(((Cursor)adapter.getItem(i)).getString(0));
+                mName.setText(((Cursor)adapter.getItem(i)).getString(1));
+                mPhone.setText(((Cursor)adapter.getItem(i)).getString(2));
+                mAddress.setText(((Cursor)adapter.getItem(i)).getString(3));
+            }
         });
-
-        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
+        listv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
 
@@ -117,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
         else
             Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
     }
-
-
 
 }
 
