@@ -42,6 +42,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.query(ResContract.Rests.REST_TABLE_NAME,null,null,null,null,null,null);
     }
 
+
+
+
     // 조건에 합하는 식당이 있는지 검사
     public Cursor getRest(String resName, String resNum) {
         SQLiteDatabase db = getReadableDatabase();
@@ -66,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        if(getRest(resName, resNum).getCount() == 0) {
+        if(getRest(resName, resNum) != null) {
             values.put(ResContract.Rests.REST_NAME, resName);
             values.put(ResContract.Rests.REST_NUM, resNum);
             values.put(ResContract.Rests.REST_ADDR, resAddr);
@@ -105,20 +108,14 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 식당 테이블에 있는 모든 정보 가져오기
-    public Cursor getAllMenu(String resName) {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.query(resName,null,null,null,null,null,null);
-    }
-
     // 메뉴 추가(식당이름, 메뉴이름, 메뉴가격, 메뉴사진에 대한 URI를 문자열로 받음)
     public void insertMenu(String resName, String menuName, String menuPrice, String menuPic) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        if(getMenu(resName, menuName).getCount() == 0) {
+        if(getMenu(resName, menuName) != null) {
             values.put("Rest_Menu", menuName);
             values.put("Rest_Price", menuPrice);
-            values.put("Menu_Pic", menuPic);
+            values.put("Rest_Pic", menuPic);
 
             db.insert(resName, null, values);
         }
@@ -143,23 +140,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Rests 테이블에 식당 삭제 (식당이름, 식당번호를 문자열로 받음)
-    public long deleteRest(String resName, String resNum) {
+    public long deleteRest(String resName) {
         SQLiteDatabase db = getWritableDatabase();
 
-        try {
-            String sql = String.format (
-                    "DELETE FROM %s WHERE %s = '%s' AND %s = '%s'",
-                    ResContract.Rests.REST_TABLE_NAME,
-                    ResContract.Rests.REST_NAME,
-                    resName,
-                    ResContract.Rests.REST_NUM,
-                    resNum);
-            db.execSQL(sql);
-            return 1;
-        } catch (SQLException e) {
-            Log.e(TAG,"Error in deleting recodes");
-            return -1;
-        }
+        String whereClause = ResContract.Rests.REST_NAME +" = ?";
+        String[] whereArgs ={resName};
+        return db.delete(ResContract.Rests.REST_TABLE_NAME, whereClause, whereArgs);
     }
 
     public long updateUserByMethod(String _id, String name, String phone) {
@@ -174,40 +160,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return db.update(ResContract.Rests.REST_TABLE_NAME, values, whereClause, whereArgs);
     }
-<<<<<<< HEAD
 
 
 
 
 
 
-=======
-
-    public Cursor fetchBook(long rowID) throws SQLException {
-        Cursor Cursor =
-                db.query(true, ResContract.Rests.CREATE_TABLE, new String[]{
-                        ResContract.Rests.REST_NAME,ResContract.Rests.REST_NUM,ResContract.Rests.REST_ADDR},
-                        ResContract.Rests._ID + "=" + rowID, null, null, null, null, null);
-
-        if(Cursor != null)
-            Cursor.moveToFirst();
-
-        return Cursor;
-
-    }
-
-    public RestClass getPersonById(int _id)
-    { StringBuffer sb = new StringBuffer();
-    sb.append(" SELECT NAME, AGE, PHONE, ADDRESS FROM TEST_TABLE WHERE _ID = ? ");
-    SQLiteDatabase db = getReadableDatabase();
-    Cursor cursor = db.rawQuery(sb.toString(), new String[]{_id + ""});
-    RestClass restClass= new RestClass();
-    if(cursor.moveToNext())
-    {
-        restClass.setName(cursor.getString(0));
-        restClass.setPhone(cursor.getString(1));
-        restClass.setAddr(cursor.getString(2));
-    }
-    return restClass; }
->>>>>>> e83a8865f32bc4ad886a1e64a3183e19a24ebb9e
 }
