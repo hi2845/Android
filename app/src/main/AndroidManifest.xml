@@ -19,21 +19,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Restaurant"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ManuActivity"
-            android:parentActivityName=".Restaurant">
-        </activity>
+        <activity
+            android:name=".Restaurant"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ManuActivity"
+            android:parentActivityName=".Restaurant"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.hi284.androidproject"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".AddMenuActivity"></activity>
     </application>
 
 </manifest>

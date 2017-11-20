@@ -8,6 +8,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 
 public class Restaurant extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private DBHelper mDbHelper;
+    String rest_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,10 +110,30 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         });
     } // end of onCreate
 
+    // 옵션메뉴 추가
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rest_add_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-
-
-
+    // 옵션메뉴 눌렸을 시
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_menu:
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        AddMenuActivity.class);
+                intent.putExtra("rest_name", rest_name);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
     //*********************** 여기를 고치시면 될 듯 ***********************
     // 따로 어댑터를 만드셔도 됩니다. 이건 모양을 위해 그냥 넣어놓은거라...
     private ListAdapter createAdapter() {
