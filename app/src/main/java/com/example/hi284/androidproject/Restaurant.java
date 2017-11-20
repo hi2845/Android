@@ -27,9 +27,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class Restaurant extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Restaurant extends AppCompatActivity {
     private DBHelper mDbHelper;
     String rest_name;
+    ArrayList<MyItem> data = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         mDbHelper = new DBHelper(this);
 
         Intent intent= getIntent();
-        String rest_name = intent.getStringExtra("rest_name");
+        rest_name = intent.getStringExtra("rest_name");
         String rest_number = intent.getStringExtra("rest_number");
         String imgUri = "";
         String rest_address = "";
@@ -76,39 +77,15 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         ib.setImageResource(R.drawable.call);
         ib.setScaleType(ImageButton.ScaleType.FIT_XY);
 
-        // 어댑터 생성
-        ListAdapter adapters = createAdapter();
-
-        final ArrayList<MyItem> data = new ArrayList<>();
-        data.add(new MyItem(R.drawable.mu1,"물냉면","9000원"));
-        data.add(new MyItem(R.drawable.mu2,"비빔냉면","9000원"));
-        data.add(new MyItem(R.drawable.mu3,"왕갈비탕","12000원"));
-        data.add(new MyItem(R.drawable.mu4,"갈비","진 6만원 선 5만원 미 4만원"));
-
-        // 어댑터 연결
-        ListView listv = (ListView)findViewById(R.id.res_menu);
-        listv.setAdapter(adapters);
-        listv.setDivider(new ColorDrawable(Color.GRAY));
-        listv.setDividerHeight(5);
-        listv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                Intent intent = new Intent(
-                        getApplicationContext(), // 현재화면의 제어권자
-                        ManuActivity.class); // 다음넘어갈 화면
-
-                // intent 객체에 데이터를 실어서 보내기
-                // 리스트뷰 클릭시 인텐트 (Intent) 생성하고 position 값을 이용하여 인텐트로 넘길값들을 넘긴다
-                intent.putExtra("img", data.get(position).mIcon);
-                intent.putExtra("name", data.get(position).nName);
-                intent.putExtra("price", data.get(position).nprice);
-
-                startActivity(intent);
-            }
-        });
+        viewAllToListView();
     } // end of onCreate
+
+    // 액티비티 다시 시작시 리스트뷰 갱신
+    @Override
+    protected void onRestart() {
+        viewAllToListView();
+        super.onRestart();
+    }
 
     // 옵션메뉴 추가
     @Override
@@ -133,27 +110,42 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-    //*********************** 여기를 고치시면 될 듯 ***********************
-    // 따로 어댑터를 만드셔도 됩니다. 이건 모양을 위해 그냥 넣어놓은거라...
-    private ListAdapter createAdapter() {
-        ArrayList<MyItem> data = new ArrayList<>();
-        data.add(new MyItem(R.drawable.mu1,"물냉면","9000원"));
-        data.add(new MyItem(R.drawable.mu2,"비빔냉면","9000원"));
-        data.add(new MyItem(R.drawable.mu3,"왕갈비탕","12000원"));
-        data.add(new MyItem(R.drawable.mu4,"갈비","진 6만원 선 5만원 미 4만원"));
 
-        MyAdapter adapt
-                = new MyAdapter(this, R.layout.item,data);
+    // 리스트뷰 설정
+    private void viewAllToListView() {
 
+        Cursor mCursor = null;
+        mCursor = mDbHelper.getAllMenu(rest_name);
 
+        while(mCursor.moveToNext()){
+            data.add(new MyItem(
+                    mCursor.getString(mCursor.getColumnIndex("Menu_Pic")),
+                    mCursor.getString(mCursor.getColumnIndex("Rest_Menu")),
+                    mCursor.getString(mCursor.getColumnIndex("Rest_Price"))));
+        }
 
-        return adapt;
-    }
+        MyAdapter adapt = new MyAdapter(this, R.layout.item, data);
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        ListView listv = (ListView)findViewById(R.id.res_menu);
+        listv.setAdapter(adapt);
 
+        listv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        ManuActivity.class); // 다음넘어갈 화면
+
+                // intent 객체에 데이터를 실어서 보내기
+                // 리스트뷰 클릭시 인텐트 (Intent) 생성하고 position 값을 이용하여 인텐트로 넘길값들을 넘긴다
+                intent.putExtra("img", data.get(i).nPath);
+                intent.putExtra("name", data.get(i).nName);
+                intent.putExtra("price", data.get(i).nprice);
+
+                startActivity(intent);
+            }
+        });
+        listv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
     // 전화걸기 Intent
