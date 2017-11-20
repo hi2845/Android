@@ -129,9 +129,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(
                         getApplicationContext(), // 현재화면의 제어권자
                         Restaurant.class); // 다음넘어갈 화면
-                intent.putExtra("name",((Cursor)adapter.getItem(i)).getString(1));
-                intent.putExtra("phone",((Cursor)adapter.getItem(i)).getString(2));
-                intent.putExtra("addr",((Cursor)adapter.getItem(i)).getString(3));
+                intent.putExtra("rest_name",((Cursor)adapter.getItem(i)).getString(1)); // 식당이름 넘김
+                intent.putExtra("rest_number",((Cursor)adapter.getItem(i)).getString(2)); // 식당번호 넘김
                 startActivity(intent);
             }
         });
