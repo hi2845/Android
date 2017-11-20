@@ -69,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        if(getRest(resName, resNum) != null) {
+        if(getRest(resName, resNum) == null) {
             values.put(ResContract.Rests.REST_NAME, resName);
             values.put(ResContract.Rests.REST_NUM, resNum);
             values.put(ResContract.Rests.REST_ADDR, resAddr);
