@@ -140,12 +140,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     // Rests 테이블에 식당 삭제 (식당이름, 식당번호를 문자열로 받음)
-    public long deleteRest(String resName) {
+    public long deleteRest(String resName, String resNum) {
         SQLiteDatabase db = getWritableDatabase();
 
-        String whereClause = ResContract.Rests.REST_NAME +" = ?";
-        String[] whereArgs ={resName};
-        return db.delete(ResContract.Rests.REST_TABLE_NAME, whereClause, whereArgs);
+        try {
+            String sql = String.format (
+                    "DELETE FROM %s WHERE %s = '%s' AND %s = '%s'",
+                    ResContract.Rests.REST_TABLE_NAME,
+                    ResContract.Rests.REST_NAME,
+                    resName,
+                    ResContract.Rests.REST_NUM,
+                    resNum);
+            db.execSQL(sql);
+            return 1;
+        } catch (SQLException e) {
+            Log.e(TAG,"Error in deleting recodes");
+            return -1;
+        }
     }
 
     public long updateUserByMethod(String _id, String name, String phone) {
