@@ -42,9 +42,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.query(ResContract.Rests.REST_TABLE_NAME,null,null,null,null,null,null);
     }
 
-
-
-
     // 조건에 합하는 식당이 있는지 검사
     public Cursor getRest(String resName, String resNum) {
         SQLiteDatabase db = getReadableDatabase();
@@ -69,7 +66,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        if(getRest(resName, resNum) == null) {
+        if(getRest(resName, resNum).getCount() == 0) {
             values.put(ResContract.Rests.REST_NAME, resName);
             values.put(ResContract.Rests.REST_NUM, resNum);
             values.put(ResContract.Rests.REST_ADDR, resAddr);
