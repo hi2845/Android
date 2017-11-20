@@ -105,14 +105,20 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    // 식당 테이블에 있는 모든 정보 가져오기
+    public Cursor getAllMenu(String resName) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(resName,null,null,null,null,null,null);
+    }
+
     // 메뉴 추가(식당이름, 메뉴이름, 메뉴가격, 메뉴사진에 대한 URI를 문자열로 받음)
     public void insertMenu(String resName, String menuName, String menuPrice, String menuPic) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        if(getMenu(resName, menuName) != null) {
+        if(getMenu(resName, menuName).getCount() == 0) {
             values.put("Rest_Menu", menuName);
             values.put("Rest_Price", menuPrice);
-            values.put("Rest_Pic", menuPic);
+            values.put("Menu_Pic", menuPic);
 
             db.insert(resName, null, values);
         }
