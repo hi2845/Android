@@ -80,13 +80,6 @@ public class Restaurant extends AppCompatActivity {
         viewAllToListView();
     } // end of onCreate
 
-    // 액티비티 다시 시작시 리스트뷰 갱신
-    @Override
-    protected void onRestart() {
-        viewAllToListView();
-        super.onRestart();
-    }
-
     // 옵션메뉴 추가
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
