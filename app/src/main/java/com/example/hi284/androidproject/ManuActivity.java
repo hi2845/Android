@@ -16,15 +16,13 @@ public class ManuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manu);
 
-        ImageView iv = (ImageView)findViewById(R.id.imageView1);
-        TextView tvTitle = (TextView)findViewById(R.id.textView1);
-        TextView tvArtist = (TextView)findViewById(R.id.textView2);
 
-
-        Intent intent = getIntent(); // 보내온 Intent를 얻는다
-        iv.setImageResource(intent.getIntExtra("img", 0));
-        tvTitle.setText(intent.getStringExtra("name"));
-        tvArtist.setText(intent.getStringExtra("price"));
+        //레스토랑 액티비티에서 값을 받아 메뉴 프레그먼트 실행한다
+        ManuFragment manus = new ManuFragment();
+        manus.setpic(getIntent().getIntExtra("img",0));
+        manus.setname(getIntent().getStringExtra("name"));
+        manus.setprice(getIntent().getStringExtra("price"));
+        getSupportFragmentManager().beginTransaction().replace(R.id.manu, manus).commit();
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) {
