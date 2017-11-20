@@ -2,6 +2,7 @@ package com.example.hi284.androidproject;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -17,6 +18,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class Restaurant extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -27,36 +32,45 @@ public class Restaurant extends AppCompatActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
+        mDbHelper = new DBHelper(this);
 
         Intent intent= getIntent();
-        int rewID=getIntent().getIntExtra("KEY", 0);
+        String rest_name = intent.getStringExtra("rest_name");
+        String rest_number = intent.getStringExtra("rest_number");
+        String imgUri = "";
+        String rest_address = "";
 
+        Cursor c = mDbHelper.getRest(rest_name, rest_number);
+        c.moveToFirst();
+
+        // 4번째 항목인 사진 UriPath를 불러오기
+        imgUri = c.getString(c.getColumnIndex("Rest_Pic"));
+        Uri imageUri = Uri.parse(imgUri);
+        File file = new File(imageUri.getPath());
+        try {
+            InputStream ims = new FileInputStream(file);
+            ImageView imageView = (ImageView) findViewById(R.id.res_img);
+            imageView.setImageBitmap(BitmapFactory.decodeStream(ims));
+        } catch (FileNotFoundException e) {
+            return;
+        }
+
+        // 식당이름 불러와 넣기
+        TextView tvName = (TextView)findViewById(R.id.res_tv);
+        tvName.setText(rest_name);
+
+        // 식당연락처 불러와 넣기
+        TextView tvNum = (TextView)findViewById(R.id.res_num);
+        tvNum.setText(rest_number);
+
+        // 식당주소 불러와 넣기
+        rest_address = c.getString(c.getColumnIndex("Rest_Address"));
+        TextView tvAddr = (TextView)findViewById(R.id.res_addr);
+        tvAddr.setText(rest_address);
 
         ImageButton ib = (ImageButton) findViewById(R.id.call_btn);
         ib.setImageResource(R.drawable.call);
         ib.setScaleType(ImageButton.ScaleType.FIT_XY);
-
-        // string.xml 리소스파일에서 식당이미지 불러오기
-        ImageView im = (ImageView)findViewById(R.id.res_img);
-        im.setImageResource(R.drawable.res1);
-        im.setScaleType(ImageView.ScaleType.FIT_XY);
-
-
-        // 리소스파일에서 식당이름 불러오기
-        TextView tvName = (TextView)findViewById(R.id.res_tv);
-        tvName.setText(intent.getStringExtra("name"));
-
-
-        // string.xml 리소스파일에서 식당연락처 불러오기
-        TextView tvNum = (TextView)findViewById(R.id.res_num);
-        tvNum.setText(intent.getStringExtra("phone"));
-
-
-        // string.xml 리소스파일에서 식당주소 불러오기
-        TextView tvAddr = (TextView)findViewById(R.id.res_addr);
-        tvAddr.setText(intent.getStringExtra("addr"));
-
-
 
         // 어댑터 생성
         ListAdapter adapters = createAdapter();
