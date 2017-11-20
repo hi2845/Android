@@ -76,6 +76,46 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@android:color/holo_orange_light"
+                android:textAlignment="center"
+                android:text="메뉴사진" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@android:color/holo_orange_light"
+                android:textAlignment="center"
+                android:text="메뉴이름" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:background="@android:color/holo_orange_light"
+                android:textAlignment="center"
+                android:text="가격" />
+
+        </LinearLayout>
+
         <ListView
             android:id="@+id/res_menu"
             android:layout_width="match_parent"
