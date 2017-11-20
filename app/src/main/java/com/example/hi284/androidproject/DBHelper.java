@@ -171,6 +171,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return db.update(ResContract.Rests.REST_TABLE_NAME, values, whereClause, whereArgs);
     }
+
     public Cursor fetchBook(long rowID) throws SQLException {
         Cursor Cursor =
                 db.query(true, ResContract.Rests.CREATE_TABLE, new String[]{
@@ -183,6 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return Cursor;
 
     }
+
     public RestClass getPersonById(int _id)
     { StringBuffer sb = new StringBuffer();
     sb.append(" SELECT NAME, AGE, PHONE, ADDRESS FROM TEST_TABLE WHERE _ID = ? ");
@@ -196,9 +198,4 @@ public class DBHelper extends SQLiteOpenHelper {
         restClass.setAddr(cursor.getString(2));
     }
     return restClass; }
-
-
-
-
-
 }
