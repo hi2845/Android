@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
                 R.layout.item2, cursor, new String[]{
                 ResContract.Rests.REST_NAME,
-                ResContract.Rests.REST_NUM,},
+                ResContract.Rests.REST_NUM},
                 new int[]{R.id.item2_name, R.id.item2_number}, 0);
 
 
