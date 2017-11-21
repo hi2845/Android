@@ -26,4 +26,9 @@ public class RestFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_rest, container, false);
     }
 
+    public interface OnRestaurantSelectedListener {
+        public void onRestaurantSelected(String img, String name, String price);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.example.hi284.androidproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -29,7 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class Restaurant extends AppCompatActivity {
+public class Restaurant extends AppCompatActivity implements RestFragment.OnRestaurantSelectedListener{
     public static final String PREFERENCES_GROUP = "SelectInfo";
 
     private DBHelper mDbHelper;
@@ -166,4 +167,20 @@ public class Restaurant extends AppCompatActivity {
         Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+call));
         startActivity(intent1);
     }
+
+@Override
+public void onRestaurantSelected(String img, String name, String price) {
+        if (getResources().getConfiguration().orientation
+        == Configuration.ORIENTATION_LANDSCAPE) {
+        ManuFragment manu = new ManuFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.manu, manu).commit();
+        } else {
+        Intent intent = new Intent(this, ManuActivity.class);
+        intent.putExtra("img", img);
+        intent.putExtra("name", name);
+        intent.putExtra("price", price);
+            startActivity(intent);
+
+        }
+        }
 }
