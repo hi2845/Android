@@ -6,51 +6,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.hi284.androidproject.ManuActivity">
 
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="4"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_weight="3"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
-
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:padding="2dp"
-            android:text="New Text"
-            android:textColor="#000000"
-            android:textSize="24dp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:padding="2dp"
-            android:text="New Text"
-            android:textColor="#666666"
-            android:textSize="16dp" />
-    </LinearLayout>
-    <ListView
+    <fragment
+        android:name="com.example.hi284.androidproject.ManuFragment"
+        android:id="@+id/manu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:choiceMode="singleChoice"
-        android:id="@+id/listview"
-        />
+        android:layout_height="match_parent" />
 
 </android.support.constraint.ConstraintLayout>
