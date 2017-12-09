@@ -141,10 +141,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-        /*if(mCurrentLocation != null) {
-            LatLng location = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()); // 현재위치의 위도, 경도값 얻어오기
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15)); // 줌레벨 15로 현재위치로 이동
-        }*/
+
     }
 
     // 주소검색
