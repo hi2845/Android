@@ -73,6 +73,13 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
+    @Override // 메뉴버튼 추가 (현재위치 이동버튼)
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.rest_add_map, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     // 권한 설정
     private boolean checkLocationPermissions() {
