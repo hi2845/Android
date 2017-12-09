@@ -80,6 +80,18 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        TextView textView =(TextView)findViewById(R.id.result);
+        switch (item.getItemId()){
+            case R.id.add_map:
+                getLastLocation();// 현재위치로 이동
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     // 권한 설정
     private boolean checkLocationPermissions() {
