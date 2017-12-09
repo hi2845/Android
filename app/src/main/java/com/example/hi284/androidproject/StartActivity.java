@@ -73,7 +73,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
-    @Override // 메뉴버튼 추가 (현재위치 이동버튼)
+    @Override // 메뉴버튼 추가 (현재위치 이동버튼, km설정 버튼)
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.rest_add_map, menu);
@@ -86,6 +86,15 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         switch (item.getItemId()){
             case R.id.add_map:
                 getLastLocation();// 현재위치로 이동
+                return true;
+            case R.id.add_marker1 :
+                textView.setText("marker1 click"); // 1km가 선택되면 검색창 및 텍스트를 바꿈
+                return true;
+            case R.id.add_marker2 :
+                textView.setText("marker2 click");// 2km가 선택되면 검색창 및 텍스트를 바꿈
+                return true;
+            case R.id.add_marker3 :
+                textView.setText("marker3 click");// 3km가 선택되면 검색창 및 텍스트를 바꿈
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
