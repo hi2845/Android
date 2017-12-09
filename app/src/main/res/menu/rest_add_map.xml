@@ -7,5 +7,19 @@
         android:icon="@drawable/ic_action_name"
         app:showAsAction="always"/>
 
-
+    <group android:id="@+id/marker_group"
+        android:checkableBehavior="single">
+    <item
+        android:id="@+id/add_marker1"
+        android:title="1km"
+        />
+    <item
+        android:id="@+id/add_marker2"
+        android:title="2km"
+        />
+    <item
+        android:id="@+id/add_marker3"
+        android:title="3km"
+        />
+    </group>
 </menu>
