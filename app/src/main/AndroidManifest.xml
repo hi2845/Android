@@ -16,13 +16,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBTmjToQahyzZD8OO37f2r3e3PJFJ96hrw" />
-        
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".MainActivity">
+
         </activity>
         <activity
             android:name=".Restaurant"
@@ -42,7 +38,13 @@
         </provider>
 
         <activity android:name=".AddMenuActivity" />
-        <activity android:name=".StartActivity"></activity>
+        <activity android:name=".StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
