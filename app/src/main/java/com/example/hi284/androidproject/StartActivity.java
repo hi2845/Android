@@ -1,6 +1,8 @@
 package com.example.hi284.androidproject;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -181,23 +183,43 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     //마커 클릭 이벤트
+    String resLat;
+    String resLng;
     class MyMarkerClickListener implements GoogleMap.OnMarkerClickListener {
 
         @Override
         public boolean onMarkerClick(Marker marker) {
-            String resLat = Double.toString(marker.getPosition().latitude);
-            String resLng = Double.toString(marker.getPosition().longitude);
-            Cursor c = mDbHelper.checkRest(resLat, resLng);
+            resLat = Double.toString(marker.getPosition().latitude);
+            resLng = Double.toString(marker.getPosition().longitude);
             String resName;
             String resNum;
+            Cursor c = mDbHelper.checkRest(resLat, resLng);
 
             if (c.getCount() == 0) {
-                Intent intent = new Intent(
-                        getApplicationContext(), // 현재화면의 제어권자
-                        MainActivity.class); // 다음넘어갈 화면
-                intent.putExtra("rest_lat", resLat);
-                intent.putExtra("rest_lng", resLng);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(StartActivity.this);
+
+                builder.setTitle("맛집 등록")
+                        .setMessage("새로운 맛집으로 등록하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(
+                                        getApplicationContext(), // 현재화면의 제어권자
+                                        MainActivity.class); // 다음넘어갈 화면
+                                intent.putExtra("rest_lat", resLat);
+                                intent.putExtra("rest_lng", resLng);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             } else {
                 c.moveToFirst();
                 resName = c.getString(1);
