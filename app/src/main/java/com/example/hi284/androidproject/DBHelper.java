@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor checkRest(String resLat, String resLng) {
         SQLiteDatabase db = getReadableDatabase();
         String sql = String.format(
-                "SELECT * FROM %s WHERE %s = '%s' A",
+                "SELECT * FROM %s WHERE %s = '%s' AND %s = '%s'",
                 ResContract.Rests.REST_TABLE_NAME,
                 ResContract.Rests.REST_LAT,
                 resLat,
