@@ -180,8 +180,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
 
         @Override
         public boolean onMarkerClick(Marker marker) {
-            String resLat = Double.toString(bestResult.getLatitude());
-            String resLng = Double.toString(bestResult.getLongitude());
+            String resLat = Double.toString(marker.getPosition().latitude);
+            String resLng = Double.toString(marker.getPosition().longitude);
             Cursor c = mDbHelper.checkRest(resLat, resLng);
             String resName;
             String resNum;
