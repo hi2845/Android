@@ -93,13 +93,13 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 getLastLocation();// 현재위치로 이동
                 return true;
             case R.id.add_marker1 :
-                textView.setText("marker1 click"); // 1km가 선택되면 검색창 및 텍스트를 바꿈
+                getRestIn(1);
                 return true;
             case R.id.add_marker2 :
-                textView.setText("marker2 click");// 2km가 선택되면 검색창 및 텍스트를 바꿈
+                getRestIn(2);
                 return true;
             case R.id.add_marker3 :
-                textView.setText("marker3 click");// 3km가 선택되면 검색창 및 텍스트를 바꿈
+                getRestIn(3);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -159,6 +159,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             Geocoder geocoder = new Geocoder(this, Locale.KOREA);
             List<Address> addresses = geocoder.getFromLocationName(input,1);
             if (addresses.size() >0) {
+                mGoogleMap.clear();
                 bestResult = (Address) addresses.get(0);
                 LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
                 mGoogleMap.addMarker(
@@ -207,6 +208,31 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             }
 
             return false;
+        }
+    }
+
+    // KM 선택시 반경 KM내의 존재하는 음식점 보여주기
+    private void getRestIn(int i) {
+        Cursor c = mDbHelper.getAllRest();
+        c.moveToFirst();
+
+        Location mLocation = new Location("Point Current");
+        Location rLocation = new Location("Point Rest");
+        mLocation.setLatitude(bestResult.getLatitude());
+        mLocation.setLongitude(bestResult.getLongitude());
+
+        for(int count = 0 ; count < c.getCount() ; count++) {
+            rLocation.setLatitude(Double.parseDouble(c.getString(4)));
+            rLocation.setLongitude(Double.parseDouble(c.getString(5)));
+            double distance = mLocation.distanceTo(rLocation);
+
+            if(distance <= i*1000) {
+                LatLng location = new LatLng(Double.parseDouble(c.getString(4)), Double.parseDouble(c.getString(5)));
+                mGoogleMap.addMarker(
+                        new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.res_location))
+                );
+            }
+            c.moveToNext();
         }
     }
 }
