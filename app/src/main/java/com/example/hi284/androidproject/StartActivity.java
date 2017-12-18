@@ -3,6 +3,7 @@ package com.example.hi284.androidproject;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -43,12 +45,15 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
     private GoogleMap mGoogleMap = null;
-
+    private DBHelper mDbHelper;
+    private Address bestResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+        mDbHelper = new DBHelper(this);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -141,7 +146,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-
+        mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());
     }
 
     // 주소검색
@@ -154,10 +159,10 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
             Geocoder geocoder = new Geocoder(this, Locale.KOREA);
             List<Address> addresses = geocoder.getFromLocationName(input,1);
             if (addresses.size() >0) {
-                Address bestResult = (Address) addresses.get(0);
+                bestResult = (Address) addresses.get(0);
                 LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
                 mGoogleMap.addMarker(
-                        new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow))
+                        new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location))
                 );
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
                 addressResult.setText(String.format("[ %s , %s ]",
@@ -167,6 +172,32 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         } catch (IOException e) {
             Log.e(getClass().toString(),"Failed in using Geocoder.", e);
             return;
+        }
+    }
+
+    //마커 클릭 이벤트
+    class MyMarkerClickListener implements GoogleMap.OnMarkerClickListener {
+
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+            String resLat = Double.toString(bestResult.getLatitude());
+            String resLng = Double.toString(bestResult.getLongitude());
+            Cursor c = mDbHelper.checkRest(resLat, resLng);
+            String resName;
+            String resNum;
+
+            if (c.getCount() == 0) {
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        MainActivity.class); // 다음넘어갈 화면
+                intent.putExtra("rest_lat", resLat);
+                intent.putExtra("rest_lng", resLng);
+                startActivity(intent);
+            } else {
+                // 이곳 수정
+            }
+
+            return false;
         }
     }
 }
