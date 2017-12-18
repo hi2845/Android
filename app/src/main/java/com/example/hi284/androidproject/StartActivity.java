@@ -93,12 +93,15 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 getLastLocation();// 현재위치로 이동
                 return true;
             case R.id.add_marker1 :
+                getAddress();
                 getRestIn(1);
                 return true;
             case R.id.add_marker2 :
+                getAddress();
                 getRestIn(2);
                 return true;
             case R.id.add_marker3 :
+                getAddress();
                 getRestIn(3);
                 return true;
             default:
@@ -166,6 +169,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                         new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location))
                 );
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
+                getRestIn(1); // 기본으로 1KM이내에 있는 주변맛집 띄워줌
                 addressResult.setText(String.format("[ %s , %s ]",
                         bestResult.getLatitude(),
                         bestResult.getLongitude()));
