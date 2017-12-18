@@ -194,7 +194,16 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 intent.putExtra("rest_lng", resLng);
                 startActivity(intent);
             } else {
-                // 이곳 수정
+                c.moveToFirst();
+                resName = c.getString(1);
+                resNum = c.getString(2);
+
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재화면의 제어권자
+                        Restaurant.class); // 다음넘어갈 화면
+                intent.putExtra("rest_name", resName);
+                intent.putExtra("rest_number", resNum);
+                startActivity(intent);
             }
 
             return false;
