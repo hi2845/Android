@@ -73,11 +73,11 @@ public class Restaurant extends AppCompatActivity implements RestFragment.OnRest
 
         // 식당이름 불러와 넣기
         TextView tvName = (TextView)findViewById(R.id.res_tv);
-        tvName.setText(sharedName);
+        tvName.setText(rest_name);
 
         // 식당연락처 불러와 넣기
         TextView tvNum = (TextView)findViewById(R.id.res_num);
-        tvNum.setText(sharedNum);
+        tvNum.setText(rest_number);
 
         // 식당주소 불러와 넣기
         rest_address = c.getString(c.getColumnIndex("Rest_Address"));
