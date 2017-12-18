@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     EditText mPhone;
     EditText mAddress;
     String mCurrentPath;
+    String resLat;
+    String resLng;
 
     private DBHelper mDbHelper;
 
@@ -57,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         mName = (EditText)findViewById(R.id.edit_name);
         mPhone = (EditText)findViewById(R.id.edit_phone);
         mAddress= (EditText)findViewById(R.id.edit_address);
+
+        Intent intent= getIntent();
+        resLat = intent.getStringExtra("rest_lat");
+        resLng = intent.getStringExtra("rest_lng");
 
         mDbHelper = new DBHelper(this);
 
@@ -74,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                insertRest();
+                insertRest(resLat, resLng);
                 viewAllToListView();
             }
         });
@@ -169,12 +175,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 식당 추가 버튼 눌렸을 시 추가
-    private void insertRest() {
+    private void insertRest(String resLat, String resLng) {
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
         EditText address= (EditText)findViewById(R.id.edit_address);
 
-        long nOfRows = mDbHelper.insertRest(name.getText().toString(),phone.getText().toString(),address.getText().toString(),mCurrentPath);
+        long nOfRows = mDbHelper.insertRest(name.getText().toString(),phone.getText().toString(),address.getText().toString(), resLat, resLng, mCurrentPath);
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
