@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.hi284.androidproject.AniActivity">
 
+    <ImageView
+        android:id="@+id/animation"
+        android:layout_width="358dp"
+        android:layout_height="487dp"
+        android:layout_gravity="top|center"
+        android:src="@drawable/ani"
+        tools:layout_editor_absoluteX="13dp"
+        tools:layout_editor_absoluteY="12dp" />
+
 </android.support.constraint.ConstraintLayout>
