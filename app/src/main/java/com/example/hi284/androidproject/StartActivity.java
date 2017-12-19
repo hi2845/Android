@@ -80,6 +80,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
+
+
     @Override // 메뉴버튼 추가 (현재위치 이동버튼, km설정 버튼)
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
