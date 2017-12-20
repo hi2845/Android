@@ -59,6 +59,20 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // 조건에 합하는 식당이 있는지 검사
+    public Cursor getRestAlready(String resName) {
+        SQLiteDatabase db = getReadableDatabase();
+        String sql = String.format(
+                "SELECT * FROM %s WHERE %s = '%s'",
+                ResContract.Rests.REST_TABLE_NAME,
+                ResContract.Rests.REST_NAME,
+                resName
+        );
+
+        Cursor c = db.rawQuery(sql, null);
+        return c;
+    }
+
+    // 조건에 합하는 식당이 있는지 검사
     public Cursor getRest(String resName, String resNum) {
         SQLiteDatabase db = getReadableDatabase();
         String sql = String.format(

@@ -48,7 +48,7 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
     private Location mCurrentLocation;
     private GoogleMap mGoogleMap = null;
     private DBHelper mDbHelper;
-    private Address bestResult;
+    private Address bestResult = new Address(Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,17 +94,22 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         TextView textView =(TextView)findViewById(R.id.result);
         switch (item.getItemId()){
             case R.id.add_map:
+                mGoogleMap.clear();
                 getLastLocation();// 현재위치로 이동
+                getRestIn(1);
                 return true;
             case R.id.add_marker1 :
+                mGoogleMap.clear();
                 getAddress();
                 getRestIn(1);
                 return true;
             case R.id.add_marker2 :
+                mGoogleMap.clear();
                 getAddress();
                 getRestIn(2);
                 return true;
             case R.id.add_marker3 :
+                mGoogleMap.clear();
                 getAddress();
                 getRestIn(3);
                 return true;
@@ -139,6 +144,8 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                     mCurrentLocation = location;
+                    bestResult.setLatitude(mCurrentLocation.getLatitude());
+                    bestResult.setLongitude(mCurrentLocation.getLongitude());
                     LatLng curLocation = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()); // 현재위치의 위도, 경도값 얻어오기
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLocation,15)); // 줌레벨 15로 현재위치로 이동
                     //updateUI();
@@ -161,26 +168,46 @@ public class StartActivity extends AppCompatActivity implements OnMapReadyCallba
         EditText addressEdit = (EditText)findViewById(R.id.edit_text);
         TextView addressResult = (TextView)findViewById(R.id.result);
         String input = addressEdit.getText().toString();
+        Cursor c = mDbHelper.getRestAlready(addressEdit.getText().toString());
+        c.moveToFirst();
 
-        try {
-            Geocoder geocoder = new Geocoder(this, Locale.KOREA);
-            List<Address> addresses = geocoder.getFromLocationName(input,1);
-            if (addresses.size() >0) {
+        if(c.getCount() != 0) {
+            try {
                 mGoogleMap.clear();
-                bestResult = (Address) addresses.get(0);
-                LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
+                LatLng location = new LatLng(Double.parseDouble(c.getString(4)), Double.parseDouble(c.getString(5)));
                 mGoogleMap.addMarker(
-                        new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location))
+                        new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.res_location))
                 );
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
                 getRestIn(1); // 기본으로 1KM이내에 있는 주변맛집 띄워줌
                 addressResult.setText(String.format("[ %s , %s ]",
-                        bestResult.getLatitude(),
-                        bestResult.getLongitude()));
+                        c.getString(4),
+                        c.getString(5)));
+            } catch (Exception e) {
+                Log.e(getClass().toString(),"Failed in using Geocoder.", e);
+                return;
             }
-        } catch (IOException e) {
-            Log.e(getClass().toString(),"Failed in using Geocoder.", e);
-            return;
+        } else {
+            try {
+                Geocoder geocoder = new Geocoder(this, Locale.KOREA);
+                List<Address> addresses = geocoder.getFromLocationName(input,1);
+                if (addresses.size() >0) {
+                    mGoogleMap.clear();
+                    bestResult = (Address) addresses.get(0);
+                    LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().position(location).alpha(0.8f).icon(BitmapDescriptorFactory.fromResource(R.drawable.current_location))
+                    );
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
+                    getRestIn(1); // 기본으로 1KM이내에 있는 주변맛집 띄워줌
+                    addressResult.setText(String.format("[ %s , %s ]",
+                            bestResult.getLatitude(),
+                            bestResult.getLongitude()));
+                }
+            } catch (IOException e) {
+                Log.e(getClass().toString(),"Failed in using Geocoder.", e);
+                return;
+            }
         }
     }
 
